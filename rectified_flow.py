@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torchdiffeq import odeint
+import matplotlib.pyplot as plt
 
 # ── 1. Velocity 네트워크 정의 ──
 class VelocityNet(nn.Module):
@@ -24,8 +25,8 @@ class VelocityNet(nn.Module):
 def train_rectified_flow(model, data_loader, optimizer, p_init_sampler, device):
     model.train()
     mse = nn.MSELoss()
-    for x0 in data_loader:                   # x0 ~ p_data
-        x0 = x0.to(device)
+    for batch in data_loader:                   # x0 ~ p_data
+        x0 = batch[0].to(device)   
         x1 = p_init_sampler(x0.shape).to(device)  # x1 ~ p_init (e.g. Gaussian)
         t = torch.rand(x0.size(0), 1, device=device)  # t ~ Uniform[0,1]
 
@@ -77,17 +78,36 @@ if __name__ == "__main__":
         return torch.stack([r*torch.cos(theta), r*torch.sin(theta)], dim=1)
 
     # 데이터로더
+    real_data = ring_data_sampler((500,))
     ds = torch.utils.data.TensorDataset(ring_data_sampler((10000,)))
     dl = torch.utils.data.DataLoader(ds, batch_size=128, shuffle=True)
 
     # 모델 & 옵티마이저
     model = VelocityNet(dim=2, hidden_dim=128).to(device)
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+    
+    plt.figure(figsize=(5,5))
+    plt.scatter(real_data[:,0].cpu(), real_data[:,1].cpu(), s=8, alpha=0.7)
+    plt.title("Real Ring Data (Target)")
+    plt.axis("equal")
+    plt.tight_layout()
+    plt.savefig("real_data.png")
+    plt.close()
 
     # 학습
-    for epoch in range(100):
+    for epoch in range(1000):
+        if epoch % 100 == 0:
+            print(f" EPOCH : {epoch}")
         train_rectified_flow(model, dl, opt, p_init_sampler, device)
 
     # 샘플링
     samples = sample_rectified_flow(model, p_init_sampler, device, num_samples=500, dim=2)
+    plt.figure(figsize=(5,5))
+    plt.scatter(samples[:,0].cpu(), samples[:,1].cpu(), s=8, alpha=0.7, c="tab:blue", label="Generated")
+    plt.title("Generated Samples (Rectified Flow)")
+    plt.axis("equal")
+    plt.tight_layout()
+    plt.savefig("generated_samples.png")
+    plt.close()
+
     print("Generated samples shape:", samples.shape)
