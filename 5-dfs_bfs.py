@@ -97,3 +97,26 @@ def bfs_maze():
                 queue.append((nx, ny))
 bfs_maze()
 print(data[n-1][m-1])
+
+def dfs(graph, start, visited):
+    visited[start] = True
+    print(start, end = ' ')
+    for i in graph[start]:
+        if not visited[i]:
+            dfs(graph, i, visited)
+
+dfs(graph, 1, visited)
+
+from collections import deque
+def bfs(graph, start, visited):
+    queue = deque([start])
+    visited[start] = True
+    while queue:
+        v = queue.popleft()
+        print(v, end = ' ')
+        for i in graph[v]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i] = True
+
+bfs(graph, 1, visited)
