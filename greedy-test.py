@@ -1,73 +1,73 @@
-# ### 01. Adventure Guild
-# n = int(input())
-# man = list(map(int, input().split()))
-# result = 0
-# man.sort()
-# grp_temp = 0
-# for i in man:
-#     grp_temp += 1
-#     if i <= grp_temp:
-#         grp_temp = 0
-#         result += 1
-# print(result)
+### 01. Adventure Guild
+n = int(input())
+man = list(map(int, input().split()))
+result = 0
+man.sort()
+grp_temp = 0
+for i in man:
+    grp_temp += 1
+    if i <= grp_temp:
+        grp_temp = 0
+        result += 1
+print(result)
 
 
-# ### 02. Multiply or Addition
-# s = input()
-# result = 0
-# for i in s:
-#     temp1 = result + int(i)
-#     temp2 = result * int(i)
-#     if temp1 > temp2:
-#         result = temp1
-#     else:
-#         result = temp2
-# print(result)
+### 02. Multiply or Addition
+s = input()
+result = 0
+for i in s:
+    temp1 = result + int(i)
+    temp2 = result * int(i)
+    if temp1 > temp2:
+        result = temp1
+    else:
+        result = temp2
+print(result)
 
 
 
-# ### 03. Reversed String
-# s = input()
-# result = 0
-# cond = 0
-# temp = s[0]
-# for i in s[1:]:
-#     if i == temp:
-#         continue
-#     elif i != temp:
-#         temp = i
-#         cond += 1
-#         if cond % 2 == 0:
-#             result += 1
-# print(result)
+### 03. Reversed String
+s = input()
+result = 0
+cond = 0
+temp = s[0]
+for i in s[1:]:
+    if i == temp:
+        continue
+    elif i != temp:
+        temp = i
+        cond += 1
+        if cond % 2 == 0:
+            result += 1
+print(result)
 
 
-# ### checked
-# ### 04. Amount cannot be made 
-# n = int(input())
-# wallet = list(map(int, input().split()))
-# wallet.sort()
-# target = 1
-# for coin in wallet:
-#     if target < coin:
-#         break
-#     target += coin
-# print(target)
+### checked
+### 04. Amount cannot be made 
+n = int(input())
+wallet = list(map(int, input().split()))
+wallet.sort()
+target = 1
+for coin in wallet:
+    if target < coin:
+        break
+    target += coin
+print(target)
 
 
-# ### 05. Picking bowling ball
-# n, m = map(int, input().split())
-# data = list(map(int, input().split()))
-# data.sort()
-# result = 0
-# for ball1 in data:
-#     for ball2 in data[ball1:]:
-#         if ball1 >= ball2 :
-#             continue
-#         else:
-#             print(f"(n, m) = ({ball1}, {ball2})")
-#             result +=1
-# print(result)
+### 05. Picking bowling ball
+n, m = map(int, input().split())
+data = list(map(int, input().split()))
+data.sort()
+result = 0
+for ball1 in data:
+    for ball2 in data[ball1:]:
+        if ball1 >= ball2 :
+            continue
+        else:
+            print(f"(n, m) = ({ball1}, {ball2})")
+            result +=1
+print(result)
 
 
 ### checked
